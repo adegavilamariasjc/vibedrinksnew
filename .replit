@@ -44,6 +44,7 @@ waitForPort = 5000
 [userenv]
 
 [userenv.shared]
+MONGODB_URI = "mongodb+srv://adegavilamariasjc_db_user:rwXu1zDU34fErayP@cluster0.lqvfksg.mongodb.net/?appName=Cluster0"
 
 [agent]
 integrations = ["javascript_object_storage:1.0.0"]
