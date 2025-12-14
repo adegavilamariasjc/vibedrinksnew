@@ -3,7 +3,7 @@ import cors from "cors";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
-import { db } from "./db";
+import { connectMongoDB } from "./mongodb";
 
 const app = express();
 const httpServer = createServer(app);
@@ -72,9 +72,10 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
-    log("PostgreSQL database connection initialized");
+    await connectMongoDB();
+    log("MongoDB connected successfully");
   } catch (error) {
-    console.error("Failed to initialize database:", error);
+    console.error("Failed to connect to MongoDB:", error);
     process.exit(1);
   }
 
