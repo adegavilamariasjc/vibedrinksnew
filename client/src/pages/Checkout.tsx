@@ -35,6 +35,20 @@ export default function Checkout() {
     queryKey: ['/api/settings'],
   });
 
+  // Redirect if not authenticated or no address
+  useEffect(() => {
+    if (!isAuthenticated || !address) {
+      setLocation('/login?redirect=/checkout');
+    }
+  }, [isAuthenticated, address, setLocation]);
+
+  // Redirect if no items in cart
+  useEffect(() => {
+    if (items.length === 0) {
+      setLocation('/');
+    }
+  }, [items.length, setLocation]);
+
   useEffect(() => {
     if (address?.neighborhood && !selectedNeighborhood) {
       setSelectedNeighborhood(address.neighborhood);
@@ -107,13 +121,8 @@ export default function Checkout() {
     }).format(price);
   };
 
-  if (!isAuthenticated || !address) {
-    setLocation('/login?redirect=/checkout');
-    return null;
-  }
-
-  if (items.length === 0) {
-    setLocation('/');
+  // Safety check - if still not authenticated, don't render
+  if (!isAuthenticated || !address || items.length === 0) {
     return null;
   }
 
